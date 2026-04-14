@@ -45,21 +45,8 @@ df = df[df["Review"] != ""].copy()
 
 print("清洗后数据形状:", df.shape)
 
-# =========================
-# 4. 标签构造
-#    注意：你提供的说明文档里 3.0 的边界符号提取不完整
-#    下面提供两种模式：
-#    - THREE_AS_POSITIVE = True  -> rating >= 3.0 为 positive，否则 negative
-#    - THREE_AS_POSITIVE = False -> rating > 3.0 为 positive，否则 negative
-#    请按老师原始要求改这一行
-# =========================
-THREE_AS_POSITIVE = True
-
 def rating_to_label(rating):
-    if THREE_AS_POSITIVE:
-        return "positive" if rating >= 3.0 else "negative"
-    else:
-        return "positive" if rating > 3.0 else "negative"
+    return "positive" if rating > 3.0 else "negative"
 
 df["Sentiment"] = df["Rating"].apply(rating_to_label)
 
