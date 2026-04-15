@@ -10,8 +10,8 @@
   "datasetSummary": {
     "trainSamples": 1190,
     "testSamples": 298,
-    "negativeTrain": 94,
-    "positiveTrain": 1096
+    "negativeTrain": 145,
+    "positiveTrain": 1045
   },
   "insights": [
     "Baseline logistic regression reaches the best overall accuracy and the best balance across both classes.",
@@ -22,269 +22,269 @@
   "metrics": [
     {
       "model": "Logistic Regression (Baseline)",
-      "accuracy": 0.9262,
-      "f1": 0.9606,
-      "precision": 0.9437,
-      "recall": 0.9781
+      "accuracy": 0.8658,
+      "f1": 0.9231,
+      "precision": 0.9302,
+      "recall": 0.916
     },
     {
       "model": "Decision Tree",
-      "accuracy": 0.8993,
-      "f1": 0.9466,
-      "precision": 0.9236,
-      "recall": 0.9708
+      "accuracy": 0.8758,
+      "f1": 0.9321,
+      "precision": 0.8975,
+      "recall": 0.9695
     },
     {
       "model": "Random Forest",
-      "accuracy": 0.9195,
-      "f1": 0.958,
-      "precision": 0.9195,
+      "accuracy": 0.8792,
+      "f1": 0.9357,
+      "precision": 0.8792,
       "recall": 1.0
     },
     {
       "model": "Gradient Boosting",
-      "accuracy": 0.9228,
-      "f1": 0.9597,
-      "precision": 0.9226,
-      "recall": 1.0
+      "accuracy": 0.8859,
+      "f1": 0.9388,
+      "precision": 0.8878,
+      "recall": 0.9962
     }
   ],
   "confusionMatrices": {
     "Logistic Regression (Baseline)": [
       [
-        8,
-        16
+        18,
+        18
       ],
       [
-        6,
-        268
+        22,
+        240
       ]
     ],
     "Decision Tree": [
       [
-        2,
-        22
+        7,
+        29
       ],
       [
         8,
-        266
+        254
       ]
     ],
     "Random Forest": [
       [
         0,
-        24
+        36
       ],
       [
         0,
-        274
+        262
       ]
     ],
     "Gradient Boosting": [
       [
-        1,
-        23
+        3,
+        33
       ],
       [
-        0,
-        274
+        1,
+        261
       ]
     ]
   },
   "positiveKeywords": [
     {
       "word": "best",
-      "value": 438
+      "value": 407
     },
     {
       "word": "rock",
-      "value": 413
+      "value": 376
     },
     {
       "word": "money",
-      "value": 394
+      "value": 364
     },
     {
       "word": "listen",
-      "value": 283
+      "value": 275
     },
     {
       "word": "sound",
-      "value": 258
-    },
-    {
-      "word": "way",
-      "value": 254
-    },
-    {
-      "word": "track",
-      "value": 252
-    },
-    {
-      "word": "think",
-      "value": 247
-    },
-    {
-      "word": "say",
-      "value": 238
+      "value": 241
     },
     {
       "word": "gig",
-      "value": 238
+      "value": 228
     },
     {
-      "word": "record",
-      "value": 237
+      "word": "track",
+      "value": 228
     },
     {
-      "word": "breathe",
-      "value": 232
+      "word": "think",
+      "value": 222
+    },
+    {
+      "word": "way",
+      "value": 219
     },
     {
       "word": "sky",
-      "value": 232
+      "value": 218
     },
     {
-      "word": "life",
-      "value": 231
-    },
-    {
-      "word": "damage",
-      "value": 227
+      "word": "say",
+      "value": 216
     },
     {
       "word": "lyrics",
-      "value": 226
+      "value": 206
+    },
+    {
+      "word": "life",
+      "value": 205
+    },
+    {
+      "word": "breathe",
+      "value": 199
     },
     {
       "word": "guitar",
-      "value": 210
-    },
-    {
-      "word": "brain",
-      "value": 210
+      "value": 199
     },
     {
       "word": "band",
-      "value": 209
+      "value": 199
+    },
+    {
+      "word": "damage",
+      "value": 191
+    },
+    {
+      "word": "greatest",
+      "value": 176
+    },
+    {
+      "word": "brain",
+      "value": 173
     },
     {
       "word": "run",
-      "value": 200
+      "value": 171
+    },
+    {
+      "word": "record",
+      "value": 169
     },
     {
       "word": "waters",
-      "value": 189
-    },
-    {
-      "word": "tracks",
-      "value": 189
-    },
-    {
-      "word": "people",
-      "value": 182
+      "value": 164
     },
     {
       "word": "heard",
-      "value": 173
+      "value": 163
+    },
+    {
+      "word": "los",
+      "value": 159
     }
   ],
   "negativeKeywords": [
     {
       "word": "money",
-      "value": 43
-    },
-    {
-      "word": "rock",
-      "value": 33
-    },
-    {
-      "word": "people",
-      "value": 32
-    },
-    {
-      "word": "sound",
-      "value": 29
-    },
-    {
-      "word": "probably",
-      "value": 24
-    },
-    {
-      "word": "better",
-      "value": 24
-    },
-    {
-      "word": "best",
-      "value": 23
-    },
-    {
-      "word": "thing",
-      "value": 23
-    },
-    {
-      "word": "point",
-      "value": 22
-    },
-    {
-      "word": "bad",
-      "value": 22
-    },
-    {
-      "word": "brain",
-      "value": 22
-    },
-    {
-      "word": "pretty",
-      "value": 21
-    },
-    {
-      "word": "gig",
-      "value": 21
-    },
-    {
-      "word": "feel",
-      "value": 21
-    },
-    {
-      "word": "tracks",
-      "value": 20
-    },
-    {
-      "word": "way",
-      "value": 20
-    },
-    {
-      "word": "listen",
-      "value": 20
-    },
-    {
-      "word": "know",
-      "value": 20
-    },
-    {
-      "word": "sky",
-      "value": 19
-    },
-    {
-      "word": "make",
-      "value": 18
-    },
-    {
-      "word": "band",
-      "value": 18
-    },
-    {
-      "word": "damage",
-      "value": 18
-    },
-    {
-      "word": "ive",
-      "value": 18
+      "value": 59
     },
     {
       "word": "record",
-      "value": 17
+      "value": 59
+    },
+    {
+      "word": "people",
+      "value": 56
+    },
+    {
+      "word": "rock",
+      "value": 50
+    },
+    {
+      "word": "track",
+      "value": 45
+    },
+    {
+      "word": "best",
+      "value": 39
+    },
+    {
+      "word": "know",
+      "value": 39
+    },
+    {
+      "word": "sound",
+      "value": 39
+    },
+    {
+      "word": "think",
+      "value": 37
+    },
+    {
+      "word": "tracks",
+      "value": 36
+    },
+    {
+      "word": "way",
+      "value": 36
+    },
+    {
+      "word": "probably",
+      "value": 34
+    },
+    {
+      "word": "run",
+      "value": 33
+    },
+    {
+      "word": "listen",
+      "value": 33
+    },
+    {
+      "word": "thing",
+      "value": 31
+    },
+    {
+      "word": "gig",
+      "value": 30
+    },
+    {
+      "word": "damage",
+      "value": 29
+    },
+    {
+      "word": "say",
+      "value": 29
+    },
+    {
+      "word": "sky",
+      "value": 29
+    },
+    {
+      "word": "better",
+      "value": 29
+    },
+    {
+      "word": "brain",
+      "value": 28
+    },
+    {
+      "word": "ive",
+      "value": 28
+    },
+    {
+      "word": "feel",
+      "value": 28
+    },
+    {
+      "word": "come",
+      "value": 27
     }
   ]
 }
