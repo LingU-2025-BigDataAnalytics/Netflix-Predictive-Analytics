@@ -1,290 +1,345 @@
 {
   "meta": {
-    "title": "Model Visualization Dashboard",
-    "subtitle": "Sentiment Classification Comparison for Presentation Use",
+    "title": "Visualization + Data Statistics",
+    "subtitle": "Revised model comparison dashboard based on feedback in Visual fix(2).docx",
     "classLabels": [
       "Negative",
       "Positive"
     ]
   },
-  "datasetSummary": {
+  "datasetStats": {
     "trainSamples": 1190,
     "testSamples": 298,
-    "negativeTrain": 145,
-    "positiveTrain": 1045
+    "negativeCount": 118,
+    "positiveCount": 1370,
+    "meanWordCount": 138.52,
+    "varianceWordCount": 86476.15,
+    "stdWordCount": 294.07,
+    "medianWordCount": 51.0
   },
-  "insights": [
-    "Baseline logistic regression reaches the best overall accuracy and the best balance across both classes.",
-    "Random Forest and Gradient Boosting recall every positive review, but both miss almost all negatives.",
-    "Decision Tree improves minority detection slightly, yet still struggles with the negative class.",
-    "Keyword differences can support the presentation narrative alongside model-level metrics."
+  "classDistribution": [
+    {
+      "label": "Negative",
+      "count": 118
+    },
+    {
+      "label": "Positive",
+      "count": 1370
+    }
   ],
-  "metrics": [
+  "classicModels": [
     {
       "model": "Logistic Regression (Baseline)",
-      "accuracy": 0.8658,
-      "f1": 0.9231,
-      "precision": 0.9302,
-      "recall": 0.916
+      "accuracy": 0.9262,
+      "f1": 0.9606,
+      "precision": 0.9437,
+      "recall": 0.9781
     },
     {
       "model": "Decision Tree",
-      "accuracy": 0.8758,
-      "f1": 0.9321,
-      "precision": 0.8975,
-      "recall": 0.9695
+      "accuracy": 0.8993,
+      "f1": 0.9466,
+      "precision": 0.9236,
+      "recall": 0.9708
     },
     {
       "model": "Random Forest",
-      "accuracy": 0.8792,
-      "f1": 0.9357,
-      "precision": 0.8792,
+      "accuracy": 0.9195,
+      "f1": 0.958,
+      "precision": 0.9195,
       "recall": 1.0
     },
     {
       "model": "Gradient Boosting",
-      "accuracy": 0.8859,
-      "f1": 0.9388,
-      "precision": 0.8878,
-      "recall": 0.9962
+      "accuracy": 0.9228,
+      "f1": 0.9597,
+      "precision": 0.9226,
+      "recall": 1.0
     }
   ],
-  "confusionMatrices": {
+  "classicConfusionMatrices": {
     "Logistic Regression (Baseline)": [
       [
-        18,
-        18
+        8,
+        16
       ],
       [
-        22,
-        240
+        6,
+        268
       ]
     ],
     "Decision Tree": [
       [
-        7,
-        29
+        2,
+        22
       ],
       [
         8,
-        254
+        266
       ]
     ],
     "Random Forest": [
       [
         0,
-        36
+        24
       ],
       [
         0,
-        262
+        274
       ]
     ],
     "Gradient Boosting": [
       [
-        3,
-        33
+        1,
+        23
       ],
       [
-        1,
-        261
+        0,
+        274
       ]
     ]
   },
+  "embeddingModels": [
+    {
+      "model": "Logistic Regression (Baseline)",
+      "accuracy": 0.9262,
+      "f1": 0.9606,
+      "precision": 0.9437,
+      "recall": 0.9781,
+      "auc": null,
+      "source": "data_preprocess.py / local rerun"
+    },
+    {
+      "model": "Word2Vec",
+      "accuracy": 0.9195,
+      "f1": 0.9039,
+      "precision": null,
+      "recall": null,
+      "auc": 0.7322,
+      "source": "word_embedding.ipynb output"
+    },
+    {
+      "model": "GloVe",
+      "accuracy": 0.906,
+      "f1": 0.8914,
+      "precision": null,
+      "recall": null,
+      "auc": 0.7927,
+      "source": "word_embedding.ipynb output"
+    },
+    {
+      "model": "BERT",
+      "accuracy": 0.8926,
+      "f1": 0.8881,
+      "precision": null,
+      "recall": null,
+      "auc": 0.731,
+      "source": "word_embedding.ipynb output"
+    }
+  ],
+  "insights": [
+    "Bar charts are split into two groups: LR + machine learning models, and LR + embedding models.",
+    "The classic-model chart now includes Accuracy, Precision, Recall and F1 with a true 0-1 scale.",
+    "The class distribution is shown with a pie chart, matching the requested visual style for presentation.",
+    "Embedding Precision, Recall and confusion matrices are not recoverable from the current local files and should be requested from the teammate who ran those notebooks."
+  ],
   "positiveKeywords": [
     {
       "word": "best",
-      "value": 407
+      "value": 438
     },
     {
       "word": "rock",
-      "value": 376
+      "value": 413
     },
     {
       "word": "money",
-      "value": 364
+      "value": 394
     },
     {
       "word": "listen",
-      "value": 275
+      "value": 283
     },
     {
       "word": "sound",
-      "value": 241
-    },
-    {
-      "word": "gig",
-      "value": 228
-    },
-    {
-      "word": "track",
-      "value": 228
-    },
-    {
-      "word": "think",
-      "value": 222
+      "value": 258
     },
     {
       "word": "way",
-      "value": 219
+      "value": 254
     },
     {
-      "word": "sky",
-      "value": 218
+      "word": "track",
+      "value": 252
+    },
+    {
+      "word": "think",
+      "value": 247
     },
     {
       "word": "say",
-      "value": 216
+      "value": 238
     },
     {
-      "word": "lyrics",
-      "value": 206
-    },
-    {
-      "word": "life",
-      "value": 205
-    },
-    {
-      "word": "breathe",
-      "value": 199
-    },
-    {
-      "word": "guitar",
-      "value": 199
-    },
-    {
-      "word": "band",
-      "value": 199
-    },
-    {
-      "word": "damage",
-      "value": 191
-    },
-    {
-      "word": "greatest",
-      "value": 176
-    },
-    {
-      "word": "brain",
-      "value": 173
-    },
-    {
-      "word": "run",
-      "value": 171
+      "word": "gig",
+      "value": 238
     },
     {
       "word": "record",
-      "value": 169
+      "value": 237
+    },
+    {
+      "word": "breathe",
+      "value": 232
+    },
+    {
+      "word": "sky",
+      "value": 232
+    },
+    {
+      "word": "life",
+      "value": 231
+    },
+    {
+      "word": "damage",
+      "value": 227
+    },
+    {
+      "word": "lyrics",
+      "value": 226
+    },
+    {
+      "word": "guitar",
+      "value": 210
+    },
+    {
+      "word": "brain",
+      "value": 210
+    },
+    {
+      "word": "band",
+      "value": 209
+    },
+    {
+      "word": "run",
+      "value": 200
     },
     {
       "word": "waters",
-      "value": 164
+      "value": 189
+    },
+    {
+      "word": "tracks",
+      "value": 189
+    },
+    {
+      "word": "people",
+      "value": 182
     },
     {
       "word": "heard",
-      "value": 163
-    },
-    {
-      "word": "los",
-      "value": 159
+      "value": 173
     }
   ],
   "negativeKeywords": [
     {
       "word": "money",
-      "value": 59
-    },
-    {
-      "word": "record",
-      "value": 59
-    },
-    {
-      "word": "people",
-      "value": 56
+      "value": 43
     },
     {
       "word": "rock",
-      "value": 50
+      "value": 33
     },
     {
-      "word": "track",
-      "value": 45
-    },
-    {
-      "word": "best",
-      "value": 39
-    },
-    {
-      "word": "know",
-      "value": 39
+      "word": "people",
+      "value": 32
     },
     {
       "word": "sound",
-      "value": 39
-    },
-    {
-      "word": "think",
-      "value": 37
-    },
-    {
-      "word": "tracks",
-      "value": 36
-    },
-    {
-      "word": "way",
-      "value": 36
+      "value": 29
     },
     {
       "word": "probably",
-      "value": 34
-    },
-    {
-      "word": "run",
-      "value": 33
-    },
-    {
-      "word": "listen",
-      "value": 33
-    },
-    {
-      "word": "thing",
-      "value": 31
-    },
-    {
-      "word": "gig",
-      "value": 30
-    },
-    {
-      "word": "damage",
-      "value": 29
-    },
-    {
-      "word": "say",
-      "value": 29
-    },
-    {
-      "word": "sky",
-      "value": 29
+      "value": 24
     },
     {
       "word": "better",
-      "value": 29
+      "value": 24
+    },
+    {
+      "word": "best",
+      "value": 23
+    },
+    {
+      "word": "thing",
+      "value": 23
+    },
+    {
+      "word": "point",
+      "value": 22
+    },
+    {
+      "word": "bad",
+      "value": 22
     },
     {
       "word": "brain",
-      "value": 28
+      "value": 22
     },
     {
-      "word": "ive",
-      "value": 28
+      "word": "pretty",
+      "value": 21
+    },
+    {
+      "word": "gig",
+      "value": 21
     },
     {
       "word": "feel",
-      "value": 28
+      "value": 21
     },
     {
-      "word": "come",
-      "value": 27
+      "word": "tracks",
+      "value": 20
+    },
+    {
+      "word": "way",
+      "value": 20
+    },
+    {
+      "word": "listen",
+      "value": 20
+    },
+    {
+      "word": "know",
+      "value": 20
+    },
+    {
+      "word": "sky",
+      "value": 19
+    },
+    {
+      "word": "make",
+      "value": 18
+    },
+    {
+      "word": "band",
+      "value": 18
+    },
+    {
+      "word": "damage",
+      "value": 18
+    },
+    {
+      "word": "ive",
+      "value": 18
+    },
+    {
+      "word": "record",
+      "value": 17
     }
-  ]
+  ],
+  "notes": {
+    "embeddingLimitation": "Word2Vec / GloVe / BERT Precision, Recall and confusion matrices are not present in the saved local outputs. Ask the teammate who ran word_embedding.ipynb to export the full classification reports if you need those figures on the final slide."
+  }
 }
