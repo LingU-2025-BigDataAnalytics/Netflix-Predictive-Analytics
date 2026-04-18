@@ -1,91 +1,84 @@
 # main.py
-# Main script to load data, train models, evaluate, and compare results.
+# This script executes the entire training and evaluation workflow.
+# It now runs the Logistic Regression baseline dynamically instead of using hardcoded values.
 
 import os
 from pyspark.sql import SparkSession
 from pyspark.ml.evaluation import MulticlassClassificationEvaluator
-from models import train_decision_tree, train_random_forest, train_gradient_boosting
+from models import (
+    train_logistic_regression,
+    train_decision_tree,
+    train_random_forest,
+    train_gradient_boosting
+)
+import pandas as pd
+from sklearn.metrics import classification_report
 
 def main():
-    # Initialize Spark session
+    # Initialize Spark Session
     spark = SparkSession.builder \
-        .appName("Member2_PySpark_Models") \
+        .appName("Comprehensive_Model_Comparison") \
         .config("spark.driver.memory", "4g") \
-        .config("spark.sql.adaptive.enabled", "true") \
         .getOrCreate()
 
-    # Locate CSV files (relative to this script's location)
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    project_root = os.path.dirname(script_dir)
-    train_path = os.path.join(project_root, "train_fixed_split.csv")
-    test_path = os.path.join(project_root, "test_fixed_split.csv")
+    # Load pre-split datasets (Ensure CSVs are in the working directory)
+    train_path = "train_fixed_split.csv"
+    test_path = "test_fixed_split.csv"
 
-    # Load data
-    train_df = spark.read.csv(train_path, header=True, inferSchema=True)
-    test_df = spark.read.csv(test_path, header=True, inferSchema=True)
+    if not os.path.exists(train_path) or not os.path.exists(test_path):
+        print(f"Error: CSV files not found at {train_path} or {test_path}")
+        return
 
-    # Drop rows with null text
-    train_df = train_df.dropna(subset=["text"])
-    test_df = test_df.dropna(subset=["text"])
+    train_df = spark.read.csv(train_path, header=True, inferSchema=True).dropna(subset=["text"])
+    test_df = spark.read.csv(test_path, header=True, inferSchema=True).dropna(subset=["text"])
 
-    print("Data loaded successfully.")
-    print(f"Training samples: {train_df.count()}")
-    print(f"Test samples: {test_df.count()}")
-    train_df.show(5, truncate=50)
+    print(f"Data Loaded. Training size: {train_df.count()}, Test size: {test_df.count()}")
 
-    # ------------------------- Decision Tree -------------------------
-    dt_model, dt_pipeline = train_decision_tree(train_df)
-    test_features_dt = dt_pipeline.transform(test_df)
-    dt_pred = dt_model.transform(test_features_dt)
-    evaluator = MulticlassClassificationEvaluator(labelCol="label", predictionCol="prediction", metricName="accuracy")
-    dt_acc = evaluator.evaluate(dt_pred)
-    print("=== Decision Tree ===")
-    print(f"Accuracy: {dt_acc:.4f}")
-    # Collect predictions for sklearn report (only for small test set)
-    pred_labels = dt_pred.select("prediction", "label").collect()
-    y_true = [int(row.label) for row in pred_labels]
-    y_pred_dt = [int(row.prediction) for row in pred_labels]
-    from sklearn.metrics import classification_report
-    print(classification_report(y_true, y_pred_dt))
-    print("-"*60 + "\n")
+    # Define evaluators
+    evaluator = MulticlassClassificationEvaluator(
+        labelCol="label", predictionCol="prediction", metricName="accuracy"
+    )
 
-    # ------------------------- Random Forest -------------------------
-    rf_model, rf_pipeline = train_random_forest(train_df)
-    test_features_rf = rf_pipeline.transform(test_df)
-    rf_pred = rf_model.transform(test_features_rf)
-    rf_acc = evaluator.evaluate(rf_pred)
-    print("=== Random Forest ===")
-    print(f"Accuracy: {rf_acc:.4f}")
-    pred_labels_rf = rf_pred.select("prediction", "label").collect()
-    y_pred_rf = [int(row.prediction) for row in pred_labels_rf]
-    print(classification_report(y_true, y_pred_rf))
-    print("-"*60 + "\n")
+    # Models to run
+    model_tasks = [
+        ("Logistic Regression (Baseline)", train_logistic_regression),
+        ("Decision Tree (Weighted)", train_decision_tree),
+        ("Random Forest (Weighted)", train_random_forest),
+        ("Gradient Boosting", train_gradient_boosting)
+    ]
 
-    # ------------------------- Gradient Boosting -------------------------
-    gbt_model, gbt_pipeline = train_gradient_boosting(train_df)
-    test_features_gbt = gbt_pipeline.transform(test_df)
-    gbt_pred = gbt_model.transform(test_features_gbt)
-    gbt_acc = evaluator.evaluate(gbt_pred)
-    print("=== Gradient Boosting ===")
-    print(f"Accuracy: {gbt_acc:.4f}")
-    pred_labels_gbt = gbt_pred.select("prediction", "label").collect()
-    y_pred_gbt = [int(row.prediction) for row in pred_labels_gbt]
-    print(classification_report(y_true, y_pred_gbt))
-    print("-"*60 + "\n")
+    label_names = ["negative", "positive"] # Consistent with LabelEncoder in preprocessing
+    final_results = []
 
-    # ------------------------- Comparison Table -------------------------
-    baseline_acc = 0.8600   # Replace with actual baseline from Member 1
-    import pandas as pd
-    results = pd.DataFrame({
-        "Model": ["Logistic Regression (Baseline)", "Decision Tree", "Random Forest", "Gradient Boosting"],
-        "Accuracy": [baseline_acc, dt_acc, rf_acc, gbt_acc]
-    })
-    print("\n=== Model Performance Comparison ===")
-    print(results.to_string(index=False))
-    print("\n" + "="*60)
-    print("Analysis: Ensemble methods (Random Forest and Gradient Boosting)")
-    print("outperform the single Decision Tree and the baseline. They capture")
-    print("non-linear patterns in the TF-IDF features more effectively.")
+    for model_name, train_func in model_tasks:
+        print(f"\n>>> Running {model_name}...")
+        
+        # Train and get feature pipeline
+        model, feat_pipeline = train_func(train_df)
+        
+        # Transform test data
+        test_transformed = feat_pipeline.transform(test_df)
+        predictions = model.transform(test_transformed)
+        
+        # Calculate Accuracy
+        accuracy = evaluator.evaluate(predictions)
+        final_results.append({"Model": model_name, "Accuracy": accuracy})
+        
+        # Generate Detailed Classification Report
+        pred_data = predictions.select("label", "prediction").collect()
+        y_true = [int(row.label) for row in pred_data]
+        y_pred = [int(row.prediction) for row in pred_data]
+        
+        print(f"--- {model_name} Classification Report ---")
+        print(classification_report(y_true, y_pred, target_names=label_names, zero_division=0))
+
+    # Summary Table
+    comparison_df = pd.DataFrame(final_results)
+    print("\n" + "="*40)
+    print("      FINAL MODEL PERFORMANCE COMPARISON")
+    print("="*40)
+    print(comparison_df.to_string(index=False))
+    print("="*40)
 
     spark.stop()
 
