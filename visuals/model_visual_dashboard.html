@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visualization + Data Statistics</title>
+  <style>
+    :root {
+      --bg: #3A295B;
+      --panel: rgba(84, 56, 134, 0.42);
+      --panel-strong: rgba(75, 42, 140, 0.68);
+      --panel-border: rgba(255, 255, 255, 0.16);
+      --grid: rgba(255, 255, 255, 0.1);
+      --text: #FFFFFF;
+      --muted: rgba(255, 255, 255, 0.72);
+      --cyan: #65F0F9;
+      --blue: #7BA5D8;
+      --deep-purple: #4B2A8C;
+      --light-purple: #A888D5;
+      --outline: #8B5CF6;
+      --shadow: 0 24px 60px rgba(0, 0, 0, 0.36);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background:
+        radial-gradient(circle at 14% 18%, rgba(101, 240, 249, 0.18), transparent 18%),
+        radial-gradient(circle at 82% 14%, rgba(168, 136, 213, 0.22), transparent 20%),
+        linear-gradient(135deg, #2E2049 0%, #3A295B 48%, #4B2A8C 100%);
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      width: 420px;
+      height: 420px;
+      pointer-events: none;
+      opacity: 0.44;
+      background-image: radial-gradient(circle, rgba(255, 255, 255, 0.85) 0 1.25px, transparent 1.5px);
+      background-size: 14px 14px;
+      mask-image: radial-gradient(circle at center, black 34%, transparent 72%);
+    }
+
+    body::before { left: -120px; top: 100px; transform: rotate(-12deg); }
+    body::after { right: -110px; top: 10px; transform: rotate(14deg); }
+
+    .page {
+      width: min(1460px, calc(100vw - 32px));
+      margin: 24px auto;
+      padding-bottom: 28px;
+    }
+
+    .hero,
+    .panel {
+      position: relative;
+      overflow: hidden;
+      border-radius: 28px;
+      border: 1px solid var(--panel-border);
+      background: linear-gradient(180deg, rgba(82, 55, 132, 0.66), rgba(46, 31, 79, 0.94));
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      padding: 34px 36px 30px;
+      background:
+        linear-gradient(160deg, rgba(58, 41, 91, 0.98), rgba(75, 42, 140, 0.92)),
+        radial-gradient(circle at 78% 14%, rgba(101, 240, 249, 0.26), transparent 24%);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -10px;
+      top: -28px;
+      width: 320px;
+      height: 164px;
+      background: linear-gradient(125deg, transparent 0%, rgba(123, 165, 216, 0.34) 30%, rgba(101, 240, 249, 0.78) 56%, rgba(168, 136, 213, 0.62) 84%, transparent 100%);
+      filter: blur(10px);
+      transform: rotate(10deg);
+    }
+
+    .eyebrow {
+      color: var(--cyan);
+      font-size: 12px;
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(34px, 5vw, 58px);
+      line-height: 0.96;
+      text-transform: uppercase;
+    }
+
+    .subtitle {
+      max-width: 920px;
+      margin-top: 14px;
+      line-height: 1.68;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .stats-grid,
+    .top-grid,
+    .lower-grid,
+    .footer-grid {
+      display: grid;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .stats-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .top-grid { grid-template-columns: 0.8fr 1.2fr; }
+    .lower-grid { grid-template-columns: 1fr 1fr; }
+    .footer-grid { grid-template-columns: 1.15fr 0.85fr; }
+
+    .panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(transparent 23px, var(--grid) 24px),
+        linear-gradient(90deg, transparent 23px, var(--grid) 24px);
+      background-size: 24px 24px;
+      opacity: 0.12;
+      pointer-events: none;
+    }
+
+    .panel-body,
+    .stat-card { position: relative; z-index: 1; padding: 24px; }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 13px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .stat-value {
+      margin-top: 12px;
+      font-size: 42px;
+      font-weight: 800;
+      color: white;
+    }
+
+    .stat-note {
+      margin-top: 8px;
+      font-size: 14px;
+      color: var(--cyan);
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 18px;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--outline);
+      box-shadow: 0 0 20px rgba(139, 92, 246, 0.66);
+    }
+
+    .hex {
+      width: 14px;
+      height: 14px;
+      display: inline-block;
+      clip-path: polygon(25% 6%, 75% 6%, 100% 50%, 75% 94%, 25% 94%, 0 50%);
+      border: 1px solid var(--outline);
+      box-shadow: 0 0 14px rgba(139, 92, 246, 0.45);
+    }
+
+    .chart-wrap { min-height: 360px; }
+    .svg-chart { width: 100%; height: 390px; display: block; }
+
+    .axis-text {
+      fill: rgba(255, 255, 255, 0.86);
+      font-size: 12px;
+      font-family: inherit;
+    }
+
+    .bar-label {
+      fill: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      text-anchor: middle;
+      font-family: inherit;
+    }
+
+    .pie-layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 18px;
+      align-items: center;
+      min-height: 330px;
+    }
+
+    .pie {
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      position: relative;
+      margin: 0 auto;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08);
+    }
+
+    .pie::after {
+      content: "";
+      position: absolute;
+      inset: 38px;
+      border-radius: 50%;
+      background: rgba(44, 28, 74, 0.96);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .pie-center {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      z-index: 1;
+    }
+
+    .pie-center strong { display: block; font-size: 34px; }
+    .pie-center span {
+      font-size: 12px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .legend { display: grid; gap: 12px; }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(139, 92, 246, 0.16);
+    }
+
+    .legend-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .swatch {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .legend-value { color: var(--cyan); font-weight: 700; }
+
+    .matrix-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .matrix-card {
+      padding: 16px;
+      border-radius: 20px;
+      border: 1px solid rgba(139, 92, 246, 0.22);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .matrix-title { margin: 0 0 12px; font-size: 15px; }
+    .matrix {
+      display: grid;
+      grid-template-columns: 76px 1fr 1fr;
+      gap: 8px;
+    }
+
+    .matrix-label,
+    .matrix-cell {
+      min-height: 62px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 8px;
+      border-radius: 14px;
+      font-size: 13px;
+    }
+
+    .matrix-label {
+      color: var(--muted);
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(139, 92, 246, 0.16);
+    }
+
+    .matrix-cell {
+      color: white;
+      font-weight: 700;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06);
+    }
+
+    .matrix-cell span {
+      display: block;
+      margin-top: 4px;
+      font-size: 11px;
+      color: rgba(255,255,255,0.82);
+      font-weight: 500;
+    }
+
+    .insight-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 12px;
+    }
+
+    .insight-list li {
+      padding: 16px 18px;
+      border-left: 3px solid var(--outline);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.05);
+      line-height: 1.68;
+    }
+
+    .metric-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      overflow: hidden;
+      border-radius: 18px;
+    }
+
+    .metric-table th,
+    .metric-table td {
+      padding: 12px 10px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .metric-table th {
+      color: var(--cyan);
+      font-weight: 700;
+      background: rgba(255,255,255,0.04);
+    }
+
+    .metric-table td:first-child,
+    .metric-table th:first-child { text-align: left; }
+
+    .keyword-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .keyword-block {
+      padding: 18px;
+      border-radius: 24px;
+      border: 1px solid rgba(139,92,246,0.18);
+      background:
+        radial-gradient(circle at top, rgba(255,255,255,0.06), transparent 58%),
+        rgba(255,255,255,0.05);
+    }
+
+    .keyword-block h3 { margin: 0 0 14px; font-size: 17px; }
+
+    .word-cloud {
+      min-height: 420px;
+      border-radius: 22px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 22% 18%, rgba(101,240,249,0.10), transparent 24%),
+        radial-gradient(circle at 78% 22%, rgba(168,136,213,0.16), transparent 26%),
+        radial-gradient(circle at 50% 70%, rgba(123,165,216,0.09), transparent 24%),
+        rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .word-cloud-svg {
+      width: 100%;
+      height: 420px;
+      display: block;
+    }
+
+    .cloud-word {
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      text-anchor: middle;
+      dominant-baseline: middle;
+      paint-order: stroke fill;
+      stroke: rgba(40, 21, 70, 0.28);
+      stroke-width: 1px;
+      letter-spacing: 0.01em;
+    }
+
+    .note-box {
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.05);
+      border: 1px dashed rgba(101,240,249,0.42);
+      line-height: 1.7;
+      color: var(--muted);
+    }
+
+    .footer-note {
+      margin-top: 16px;
+      text-align: right;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    @media (max-width: 1180px) {
+      .stats-grid,
+      .top-grid,
+      .lower-grid,
+      .footer-grid,
+      .matrix-grid,
+      .keyword-columns,
+      .pie-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page { width: min(100vw - 16px, 1460px); }
+      .hero, .panel { border-radius: 22px; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      h1 { font-size: 36px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="eyebrow">Visualization + Data Statistics</div>
+      <h1 id="title">Visualization + Data Statistics</h1>
+      <div class="subtitle" id="subtitle"></div>
+    </section>
+
+    <section class="stats-grid">
+      <article class="panel stat-card">
+        <div class="stat-label">Train / Test</div>
+        <div class="stat-value" id="stat-samples">0 / 0</div>
+        <div class="stat-note">fixed split records used in experiments</div>
+      </article>
+      <article class="panel stat-card">
+        <div class="stat-label">Mean Word Count</div>
+        <div class="stat-value" id="stat-mean">0</div>
+        <div class="stat-note" id="stat-median">median 0</div>
+      </article>
+      <article class="panel stat-card">
+        <div class="stat-label">Variance</div>
+        <div class="stat-value" id="stat-var">0</div>
+        <div class="stat-note" id="stat-std">std 0</div>
+      </article>
+      <article class="panel stat-card">
+        <div class="stat-label">Best Classic Model</div>
+        <div class="stat-value" id="stat-best">0</div>
+        <div class="stat-note" id="stat-best-name">model</div>
+      </article>
+    </section>
+
+    <section class="top-grid">
+      <article class="panel">
+        <div class="panel-body">
+          <h2 class="section-title"><span class="hex" style="background:#A888D5"></span>Pie Chart: Positive vs Negative</h2>
+          <div class="pie-layout">
+            <div class="pie" id="class-pie">
+              <div class="pie-center">
+                <div>
+                  <strong id="pie-share">0%</strong>
+                  <span>Positive Share</span>
+                </div>
+              </div>
+            </div>
+            <div class="legend" id="pie-legend"></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-body">
+          <h2 class="section-title"><span class="hex" style="background:#7BA5D8"></span>Feedback Fix Summary</h2>
+          <ul class="insight-list" id="insights"></ul>
+        </div>
+      </article>
+    </section>
+
+    <section class="lower-grid">
+      <article class="panel">
+        <div class="panel-body">
+          <h2 class="section-title"><span class="hex" style="background:#65F0F9"></span>LR + ML Models: 4 Metrics</h2>
+          <div class="chart-wrap" id="classic-chart"></div>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-body">
+          <h2 class="section-title"><span class="hex" style="background:#7BA5D8"></span>LR + Embedding Models</h2>
+          <div class="chart-wrap" id="embedding-chart"></div>
+          <div class="note-box" id="embedding-note" style="margin-top: 14px;"></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="lower-grid">
+      <article class="panel">
+        <div class="panel-body">
+          <h2 class="section-title"><span class="hex" style="background:#4B2A8C"></span>Confusion Matrix Heatmaps</h2>
+          <div class="matrix-grid" id="matrix-grid"></div>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-body">
+          <h2 class="section-title"><span class="hex" style="background:#7BA5D8"></span>Embedding Metrics Table</h2>
+          <div id="embedding-table"></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="footer-grid">
+      <article class="panel">
+        <div class="panel-body">
+          <h2 class="section-title"><span class="hex" style="background:#65F0F9"></span>Keyword Snapshot</h2>
+          <div class="keyword-columns">
+            <section class="keyword-block">
+              <h3>Positive Reviews</h3>
+              <div class="word-cloud" id="positive-keywords"></div>
+            </section>
+            <section class="keyword-block">
+              <h3>Negative Reviews</h3>
+              <div class="word-cloud" id="negative-keywords"></div>
+            </section>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-body">
+          <h2 class="section-title"><span class="hex" style="background:#A888D5"></span>Speaker Notes</h2>
+          <ul class="insight-list">
+            <li>The bar chart scale is now a true 0-1 performance scale, so 0.86 and 0.92 no longer look misleadingly far apart.</li>
+            <li>The classic-model chart is ready for your part of the presentation because it includes Accuracy, Precision, Recall and F1.</li>
+            <li>The embedding chart is based on notebook-exported metrics; ask the embedding-model owner for full classification reports before final submission.</li>
+            <li>The statistics section covers mean, median, variance and standard deviation, satisfying the “statistics indicators” requirement.</li>
+          </ul>
+        </div>
+      </article>
+    </section>
+
+    <div class="footer-note">Palette: #3A295B / #FFFFFF / #65F0F9 / #7BA5D8 / #4B2A8C / #A888D5 / #8B5CF6</div>
+  </main>
+
+  <script>
+    const DATA = __VISUALIZATION_DATA__;
+
+    const palette = {
+      cyan: "#65F0F9",
+      blue: "#7BA5D8",
+      deepPurple: "#4B2A8C",
+      lightPurple: "#A888D5",
+      outline: "#8B5CF6"
+    };
+
+    function setText(id, value) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    }
+
+    function renderStats() {
+      setText("title", DATA.meta.title);
+      setText("subtitle", DATA.meta.subtitle);
+      setText("stat-samples", `${DATA.datasetStats.trainSamples} / ${DATA.datasetStats.testSamples}`);
+      setText("stat-mean", DATA.datasetStats.meanWordCount.toFixed(2));
+      setText("stat-median", `median ${DATA.datasetStats.medianWordCount.toFixed(2)}`);
+      setText("stat-var", DATA.datasetStats.varianceWordCount.toFixed(2));
+      setText("stat-std", `std ${DATA.datasetStats.stdWordCount.toFixed(2)}`);
+      const best = [...DATA.classicModels].sort((a, b) => b.accuracy - a.accuracy)[0];
+      setText("stat-best", best.accuracy.toFixed(4));
+      setText("stat-best-name", best.model);
+    }
+
+    function renderPie() {
+      const items = DATA.classDistribution;
+      const total = items.reduce((sum, item) => sum + item.count, 0);
+      const positive = items.find(item => item.label === "Positive").count;
+      const positiveRatio = positive / total;
+      const pie = document.getElementById("class-pie");
+      pie.style.background = `conic-gradient(${palette.cyan} 0 ${(positiveRatio * 360).toFixed(1)}deg, ${palette.lightPurple} ${(positiveRatio * 360).toFixed(1)}deg 360deg)`;
+      setText("pie-share", `${(positiveRatio * 100).toFixed(1)}%`);
+      document.getElementById("pie-legend").innerHTML = items.map(item => {
+        const color = item.label === "Positive" ? palette.cyan : palette.lightPurple;
+        return `
+          <div class="legend-item">
+            <div class="legend-left">
+              <span class="swatch" style="background:${color}"></span>
+              <span>${item.label}</span>
+            </div>
+            <div class="legend-value">${item.count}</div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderMetricChart(containerId, items, metricDefs, options = {}) {
+      const width = 920;
+      const height = 390;
+      const margin = { top: 28, right: 20, bottom: 92, left: 54 };
+      const innerWidth = width - margin.left - margin.right;
+      const innerHeight = height - margin.top - margin.bottom;
+      const groupStep = innerWidth / items.length;
+      const groupWidth = Math.min(180, groupStep * 0.84);
+      const gap = 8;
+      const barWidth = (groupWidth - gap * (metricDefs.length - 1)) / metricDefs.length;
+      const yMin = options.yMin ?? 0;
+      const yMax = options.yMax ?? 1;
+
+      const scaleY = value => {
+        const ratio = (value - yMin) / (yMax - yMin);
+        return margin.top + innerHeight - ratio * innerHeight;
+      };
+
+      const grid = Array.from({ length: 6 }, (_, i) => {
+        const value = yMin + ((yMax - yMin) / 5) * i;
+        const y = scaleY(value);
+        return `
+          <line x1="${margin.left}" y1="${y}" x2="${width - margin.right}" y2="${y}" stroke="rgba(255,255,255,0.16)" stroke-dasharray="4 6"></line>
+          <text class="axis-text" x="${margin.left - 12}" y="${y + 4}" text-anchor="end">${value.toFixed(2)}</text>
+        `;
+      }).join("");
+
+      const bars = items.map((item, idx) => {
+        const startX = margin.left + groupStep * idx + (groupStep - groupWidth) / 2;
+        const rects = metricDefs.map((def, metricIdx) => {
+          const value = item[def.key];
+          if (value === null || value === undefined) {
+            const x = startX + metricIdx * (barWidth + gap);
+            return `
+              <rect x="${x}" y="${scaleY(yMin)}" width="${barWidth}" height="2" rx="2" fill="rgba(255,255,255,0.28)"></rect>
+              <text class="axis-text" x="${x + barWidth / 2}" y="${scaleY(yMin) - 8}" text-anchor="middle">N/A</text>
+              <text class="axis-text" x="${x + barWidth / 2}" y="${height - 22}" text-anchor="middle">${def.short}</text>
+            `;
+          }
+          const x = startX + metricIdx * (barWidth + gap);
+          const y = scaleY(value);
+          const h = margin.top + innerHeight - y;
+          return `
+            <rect x="${x}" y="${y}" width="${barWidth}" height="${h}" rx="10" fill="${def.color}"></rect>
+            <text class="bar-label" x="${x + barWidth / 2}" y="${y - 10}">${value.toFixed(4)}</text>
+            <text class="axis-text" x="${x + barWidth / 2}" y="${height - 22}" text-anchor="middle">${def.short}</text>
+          `;
+        }).join("");
+        return `
+          ${rects}
+          <text class="axis-text" x="${startX + groupWidth / 2}" y="${height - 48}" text-anchor="middle">${item.model.replace(" (Baseline)", "")}</text>
+        `;
+      }).join("");
+
+      document.getElementById(containerId).innerHTML = `
+        <svg class="svg-chart" viewBox="0 0 ${width} ${height}" preserveAspectRatio="none">
+          ${grid}
+          <line x1="${margin.left}" y1="${margin.top + innerHeight}" x2="${width - margin.right}" y2="${margin.top + innerHeight}" stroke="rgba(255,255,255,0.24)"></line>
+          ${bars}
+        </svg>
+      `;
+    }
+
+    function heatColor(value, max) {
+      const ratio = max === 0 ? 0 : value / max;
+      const r = Math.round(75 + ratio * 93);
+      const g = Math.round(42 + ratio * 198);
+      const b = Math.round(140 + ratio * 109);
+      return `rgb(${r}, ${g}, ${b})`;
+    }
+
+    function renderMatrices() {
+      const matrices = DATA.classicConfusionMatrices;
+      document.getElementById("matrix-grid").innerHTML = Object.entries(matrices).map(([model, matrix]) => {
+        const max = Math.max(...matrix.flat());
+        const [tn, fp] = matrix[0];
+        const [fn, tp] = matrix[1];
+        return `
+          <article class="matrix-card">
+            <h3 class="matrix-title">${model}</h3>
+            <div class="matrix">
+              <div class="matrix-label"></div>
+              <div class="matrix-label">Pred Neg</div>
+              <div class="matrix-label">Pred Pos</div>
+              <div class="matrix-label">True Neg</div>
+              <div class="matrix-cell" style="background:${heatColor(tn, max)}">${tn}<span>TN</span></div>
+              <div class="matrix-cell" style="background:${heatColor(fp, max)}">${fp}<span>FP</span></div>
+              <div class="matrix-label">True Pos</div>
+              <div class="matrix-cell" style="background:${heatColor(fn, max)}">${fn}<span>FN</span></div>
+              <div class="matrix-cell" style="background:${heatColor(tp, max)}">${tp}<span>TP</span></div>
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    function renderInsights() {
+      document.getElementById("insights").innerHTML = DATA.insights.map(item => `<li>${item}</li>`).join("");
+    }
+
+    function renderEmbeddingTable() {
+      document.getElementById("embedding-table").innerHTML = `
+        <table class="metric-table">
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th>Accuracy</th>
+              <th>Precision</th>
+              <th>Recall</th>
+              <th>F1</th>
+              <th>Source</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${DATA.embeddingModels.map(item => `
+              <tr>
+                <td>${item.model}</td>
+                <td>${item.accuracy !== null ? item.accuracy.toFixed(4) : "N/A"}</td>
+                <td>${item.precision !== null ? item.precision.toFixed(4) : "Need export"}</td>
+                <td>${item.recall !== null ? item.recall.toFixed(4) : "Need export"}</td>
+                <td>${item.f1 !== null ? item.f1.toFixed(4) : "N/A"}</td>
+                <td>${item.source || "local summary"}</td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      `;
+      document.getElementById("embedding-note").textContent = DATA.notes.embeddingLimitation;
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+    }
+
+    function buildWordCloudMarkup(items, colors) {
+      const words = [...items].sort((a, b) => b.value - a.value).slice(0, 90);
+      const width = 540;
+      const height = 420;
+      const centerX = width / 2;
+      const centerY = height / 2;
+      const minValue = words[words.length - 1]?.value ?? 1;
+      const maxValue = words[0]?.value ?? 1;
+      const placed = [];
+
+      function collides(box) {
+        return placed.some(item =>
+          !(box.x2 < item.x1 || box.x1 > item.x2 || box.y2 < item.y1 || box.y1 > item.y2)
+        );
+      }
+
+      const textNodes = words.map((item, index) => {
+        const ratio = maxValue === minValue ? 1 : (item.value - minValue) / (maxValue - minValue);
+        const fontSize = 12 + Math.pow(ratio, 0.72) * 110;
+        const textWidth = Math.max(item.word.length * fontSize * 0.48, fontSize * 1.2);
+        const textHeight = fontSize * 0.74;
+        const rotate = ratio > 0.8 ? 0 : (index % 11 === 0 ? -90 : 0);
+        const boxWidth = rotate === 0 ? textWidth : textHeight;
+        const boxHeight = rotate === 0 ? textHeight : textWidth;
+
+        let angle = index * 0.92;
+        let radius = 0;
+        let chosen = null;
+
+        for (let tries = 0; tries < 900; tries += 1) {
+          const x = centerX + Math.cos(angle) * radius;
+          const y = centerY + Math.sin(angle) * radius * 0.72;
+          const candidate = {
+            x,
+            y,
+            x1: x - boxWidth / 2 - 8,
+            x2: x + boxWidth / 2 + 8,
+            y1: y - boxHeight / 2 - 6,
+            y2: y + boxHeight / 2 + 6,
+          };
+          const fits = candidate.x1 >= 8 && candidate.x2 <= width - 8 && candidate.y1 >= 8 && candidate.y2 <= height - 8;
+          if (fits && !collides(candidate)) {
+            chosen = candidate;
+            placed.push(candidate);
+            break;
+          }
+          angle += 0.33;
+          radius += 0.95;
+        }
+
+        if (!chosen) return "";
+        const fill = colors[index % colors.length];
+        return `<text class="cloud-word" x="${chosen.x.toFixed(1)}" y="${chosen.y.toFixed(1)}" font-size="${fontSize.toFixed(1)}" font-weight="700" fill="${fill}" transform="rotate(${rotate} ${chosen.x.toFixed(1)} ${chosen.y.toFixed(1)})">${escapeHtml(item.word)}</text>`;
+      }).join("");
+
+      return `<svg class="word-cloud-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="keyword word cloud">${textNodes}</svg>`;
+    }
+
+    function renderKeywords() {
+      document.getElementById("positive-keywords").innerHTML = buildWordCloudMarkup(
+        DATA.positiveKeywords,
+        ["#65F0F9", "#FFFFFF", "#7BA5D8", "#D8F9FF", "#A888D5"]
+      );
+      document.getElementById("negative-keywords").innerHTML = buildWordCloudMarkup(
+        DATA.negativeKeywords,
+        ["#A888D5", "#FFFFFF", "#65F0F9", "#7BA5D8", "#D9C6FF"]
+      );
+    }
+
+    function init() {
+      renderStats();
+      renderPie();
+      renderInsights();
+      renderMetricChart("classic-chart", DATA.classicModels, [
+        { key: "accuracy", short: "Acc", color: palette.cyan },
+        { key: "precision", short: "Pre", color: palette.blue },
+        { key: "recall", short: "Rec", color: palette.deepPurple },
+        { key: "f1", short: "F1", color: palette.lightPurple }
+      ], { yMin: 0, yMax: 1 });
+      renderMetricChart("embedding-chart", DATA.embeddingModels, [
+        { key: "accuracy", short: "Acc", color: palette.cyan },
+        { key: "precision", short: "Pre", color: palette.blue },
+        { key: "recall", short: "Rec", color: palette.deepPurple },
+        { key: "f1", short: "F1", color: palette.lightPurple }
+      ], { yMin: 0, yMax: 1 });
+      renderMatrices();
+      renderEmbeddingTable();
+      renderKeywords();
+    }
+
+    init();
+  </script>
+</body>
+</html>

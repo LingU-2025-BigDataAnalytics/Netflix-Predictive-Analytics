@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bar Chart Word Embed</title>
+  <style>
+    :root {
+      --bg: #3A295B;
+      --text: #FFFFFF;
+      --cyan: #65F0F9;
+      --blue: #7BA5D8;
+      --deep-purple: #4B2A8C;
+      --light-purple: #A888D5;
+      --outline: #8B5CF6;
+      --panel: rgba(84, 56, 134, 0.42);
+      --border: rgba(255, 255, 255, 0.16);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background:
+        radial-gradient(circle at 12% 16%, rgba(101,240,249,0.16), transparent 18%),
+        radial-gradient(circle at 84% 12%, rgba(168,136,213,0.20), transparent 20%),
+        linear-gradient(135deg, #2E2049 0%, #3A295B 48%, #4B2A8C 100%);
+      padding: 24px;
+    }
+    .card {
+      max-width: 1200px;
+      margin: 0 auto;
+      border-radius: 28px;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(82,55,132,0.70), rgba(46,31,79,0.95));
+      box-shadow: 0 24px 60px rgba(0,0,0,0.35);
+      overflow: hidden;
+    }
+    .body { padding: 26px; }
+    h1 {
+      margin: 0 0 18px;
+      font-size: 24px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .hex {
+      width: 14px;
+      height: 14px;
+      display: inline-block;
+      background: var(--cyan);
+      clip-path: polygon(25% 6%, 75% 6%, 100% 50%, 75% 94%, 25% 94%, 0 50%);
+      border: 1px solid var(--outline);
+    }
+    .note-box {
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.06);
+      border: 1px dashed rgba(101,240,249,0.42);
+      color: rgba(255,255,255,0.86);
+      line-height: 1.7;
+    }
+    .matrix-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .matrix-card {
+      padding: 16px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .matrix-title {
+      margin: 0 0 12px;
+      font-size: 16px;
+    }
+    .matrix {
+      display: grid;
+      grid-template-columns: 74px repeat(2, 1fr);
+      gap: 8px;
+    }
+    .matrix-label, .matrix-cell {
+      padding: 12px 10px;
+      border-radius: 14px;
+      text-align: center;
+      font-size: 13px;
+    }
+    .matrix-label {
+      background: rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.80);
+    }
+    .matrix-cell {
+      font-weight: 700;
+      color: white;
+    }
+    .word-cols {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .word-panel {
+      padding: 18px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .word-panel h2 {
+      margin: 0 0 12px;
+      font-size: 18px;
+    }
+    .word-cloud-svg {
+      width: 100%;
+      height: 420px;
+      display: block;
+      border-radius: 20px;
+      background:
+        radial-gradient(circle at 22% 18%, rgba(101,240,249,0.10), transparent 24%),
+        radial-gradient(circle at 78% 22%, rgba(168,136,213,0.16), transparent 26%),
+        rgba(255,255,255,0.03);
+    }
+    .cloud-word {
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      text-anchor: middle;
+      dominant-baseline: middle;
+      stroke: rgba(40, 21, 70, 0.25);
+      stroke-width: 1px;
+      paint-order: stroke fill;
+    }
+    @media (max-width: 900px) {
+      .matrix-grid, .word-cols { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <section class="body">
+      <h1><span class="hex"></span>Bar Chart Word Embed</h1>
+      <svg viewBox='0 0 1100 560' width='100%' height='auto'><line x1='72' y1='440.0' x2='1076' y2='440.0' stroke='rgba(255,255,255,0.16)' stroke-dasharray='4 6'></line><text x='60' y='444.0' fill='rgba(255,255,255,0.86)' font-size='12' text-anchor='end'>0.00</text><line x1='72' y1='359.2' x2='1076' y2='359.2' stroke='rgba(255,255,255,0.16)' stroke-dasharray='4 6'></line><text x='60' y='363.2' fill='rgba(255,255,255,0.86)' font-size='12' text-anchor='end'>0.20</text><line x1='72' y1='278.4' x2='1076' y2='278.4' stroke='rgba(255,255,255,0.16)' stroke-dasharray='4 6'></line><text x='60' y='282.4' fill='rgba(255,255,255,0.86)' font-size='12' text-anchor='end'>0.40</text><line x1='72' y1='197.60000000000002' x2='1076' y2='197.60000000000002' stroke='rgba(255,255,255,0.16)' stroke-dasharray='4 6'></line><text x='60' y='201.60000000000002' fill='rgba(255,255,255,0.86)' font-size='12' text-anchor='end'>0.60</text><line x1='72' y1='116.79999999999995' x2='1076' y2='116.79999999999995' stroke='rgba(255,255,255,0.16)' stroke-dasharray='4 6'></line><text x='60' y='120.79999999999995' fill='rgba(255,255,255,0.86)' font-size='12' text-anchor='end'>0.80</text><line x1='72' y1='36.0' x2='1076' y2='36.0' stroke='rgba(255,255,255,0.16)' stroke-dasharray='4 6'></line><text x='60' y='40.0' fill='rgba(255,255,255,0.86)' font-size='12' text-anchor='end'>1.00</text><line x1='72' y1='440' x2='1076' y2='440' stroke='rgba(255,255,255,0.28)'></line><rect x='94.59' y='143.90840000000003' width='43.955' height='296.09159999999997' rx='12' fill='#65F0F9'></rect><text x='116.5675' y='133.90840000000003' fill='white' font-size='12' font-weight='700' text-anchor='middle'>0.7329</text><text x='116.5675' y='532' fill='rgba(255,255,255,0.86)' font-size='13' text-anchor='middle'>Acc</text><rect x='148.54500000000002' y='82.2176' width='43.955' height='357.7824' rx='12' fill='#7BA5D8'></rect><text x='170.5225' y='72.2176' fill='white' font-size='12' font-weight='700' text-anchor='middle'>0.8856</text><text x='170.5225' y='532' fill='rgba(255,255,255,0.86)' font-size='13' text-anchor='middle'>Pre</text><rect x='202.5' y='143.90840000000003' width='43.955' height='296.09159999999997' rx='12' fill='#4B2A8C'></rect><text x='224.4775' y='133.90840000000003' fill='white' font-size='12' font-weight='700' text-anchor='middle'>0.7329</text><text x='224.4775' y='532' fill='rgba(255,255,255,0.86)' font-size='13' text-anchor='middle'>Rec</text><rect x='256.45500000000004' y='120.55720000000002' width='43.955' height='319.4428' rx='12' fill='#A888D5'></rect><text x='278.43250000000006' y='110.55720000000002' fill='white' font-size='12' font-weight='700' text-anchor='middle'>0.7907</text><text x='278.43250000000006' y='532' fill='rgba(255,255,255,0.86)' font-size='13' text-anchor='middle'>F1</text><text x='197.5' y='498' fill='rgba(255,255,255,0.94)' font-size='15' text-anchor='middle'>Logistic Regression</text><rect x='345.59000000000003' y='87.50999999999999' width='43.955' height='352.49' rx='12' fill='#65F0F9'></rect><text x='367.56750000000005' y='77.50999999999999' fill='white' font-size='12' font-weight='700' text-anchor='middle'>0.8725</text><text x='367.56750000000005' y='532' fill='rgba(255,255,255,0.86)' font-size='13' text-anchor='middle'>Acc</text><rect x='399.545' y='109.89159999999998' width='43.955' height='330.1084' rx='12' fill='#7BA5D8'></rect><text x='421.52250000000004' y='99.89159999999998' fill='white' font-size='12' font-weight='700' text-anchor='middle'>0.8171</text><text x='421.52250000000004' y='532' fill='rgba(255,255,255,0.86)' font-size='13' text-anchor='middle'>Pre</text><rect x='453.5' y='87.50999999999999' width='43.955' height='352.49' rx='12' fill='#4B2A8C'></rect><text x='475.4775' y='77.50999999999999' fill='white' font-size='12' font-weight='700' text-anchor='middle'>0.8725</text><text x='475.4775' y='532' fill='rgba(255,255,255,0.86)' font-size='13' text-anchor='middle'>Rec</text><rect x='507.45500000000004' y='104.51839999999999' width='43.955' height='335.4816' rx='12' fill='#A888D5'></rect><text x='529.4325' y='94.51839999999999' fill='white' font-size='12' font-weight='700' text-anchor='middle'>0.8304</text><text x='529.4325' y='532' fill='rgba(255,255,255,0.86)' font-size='13' text-anchor='middle'>F1</text><text x='448.5' y='498' fill='rgba(255,255,255,0.94)' font-size='15' text-anchor='middle'>Word2Vec</text><rect x='596.59' y='95.67080000000004' width='43.955' height='344.32919999999996' rx='12' fill='#65F0F9'></rect><text x='618.5675' y='85.67080000000004' fill='white' font-size='12' font-weight='700' text-anchor='middle'>0.8523</text><text x='618.5675' y='532' fill='rgba(255,255,255,0.86)' font-size='13' text-anchor='middle'>Acc</text><rect x='650.5450000000001' y='110.57839999999999' width='43.955' height='329.4216' rx='12' fill='#7BA5D8'></rect><text x='672.5225' y='100.57839999999999' fill='white' font-size='12' font-weight='700' text-anchor='middle'>0.8154</text><text x='672.5225' y='532' fill='rgba(255,255,255,0.86)' font-size='13' text-anchor='middle'>Pre</text><rect x='704.5' y='95.67080000000004' width='43.955' height='344.32919999999996' rx='12' fill='#4B2A8C'></rect><text x='726.4775' y='85.67080000000004' fill='white' font-size='12' font-weight='700' text-anchor='middle'>0.8523</text><text x='726.4775' y='532' fill='rgba(255,255,255,0.86)' font-size='13' text-anchor='middle'>Rec</text><rect x='758.455' y='104.5992' width='43.955' height='335.4008' rx='12' fill='#A888D5'></rect><text x='780.4325' y='94.5992' fill='white' font-size='12' font-weight='700' text-anchor='middle'>0.8302</text><text x='780.4325' y='532' fill='rgba(255,255,255,0.86)' font-size='13' text-anchor='middle'>F1</text><text x='699.5' y='498' fill='rgba(255,255,255,0.94)' font-size='15' text-anchor='middle'>GloVe</text><rect x='847.59' y='87.50999999999999' width='43.955' height='352.49' rx='12' fill='#65F0F9'></rect><text x='869.5675' y='77.50999999999999' fill='white' font-size='12' font-weight='700' text-anchor='middle'>0.8725</text><text x='869.5675' y='532' fill='rgba(255,255,255,0.86)' font-size='13' text-anchor='middle'>Acc</text><rect x='901.5450000000001' y='97.3272' width='43.955' height='342.6728' rx='12' fill='#7BA5D8'></rect><text x='923.5225' y='87.3272' fill='white' font-size='12' font-weight='700' text-anchor='middle'>0.8482</text><text x='923.5225' y='532' fill='rgba(255,255,255,0.86)' font-size='13' text-anchor='middle'>Pre</text><rect x='955.5' y='87.50999999999999' width='43.955' height='352.49' rx='12' fill='#4B2A8C'></rect><text x='977.4775' y='77.50999999999999' fill='white' font-size='12' font-weight='700' text-anchor='middle'>0.8725</text><text x='977.4775' y='532' fill='rgba(255,255,255,0.86)' font-size='13' text-anchor='middle'>Rec</text><rect x='1009.455' y='94.09520000000003' width='43.955' height='345.90479999999997' rx='12' fill='#A888D5'></rect><text x='1031.4325000000001' y='84.09520000000003' fill='white' font-size='12' font-weight='700' text-anchor='middle'>0.8562</text><text x='1031.4325000000001' y='532' fill='rgba(255,255,255,0.86)' font-size='13' text-anchor='middle'>F1</text><text x='950.5' y='498' fill='rgba(255,255,255,0.94)' font-size='15' text-anchor='middle'>BERT</text></svg>
+      <div class='note-box'>Embedding metrics were restored from the saved notebook outputs.</div>
+    </section>
+  </main>
+</body>
+</html>

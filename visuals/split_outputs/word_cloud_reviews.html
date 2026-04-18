@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Word Cloud Reviews</title>
+  <style>
+    :root {
+      --bg: #3A295B;
+      --text: #FFFFFF;
+      --cyan: #65F0F9;
+      --blue: #7BA5D8;
+      --deep-purple: #4B2A8C;
+      --light-purple: #A888D5;
+      --outline: #8B5CF6;
+      --panel: rgba(84, 56, 134, 0.42);
+      --border: rgba(255, 255, 255, 0.16);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background:
+        radial-gradient(circle at 12% 16%, rgba(101,240,249,0.16), transparent 18%),
+        radial-gradient(circle at 84% 12%, rgba(168,136,213,0.20), transparent 20%),
+        linear-gradient(135deg, #2E2049 0%, #3A295B 48%, #4B2A8C 100%);
+      padding: 24px;
+    }
+    .card {
+      max-width: 1200px;
+      margin: 0 auto;
+      border-radius: 28px;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(82,55,132,0.70), rgba(46,31,79,0.95));
+      box-shadow: 0 24px 60px rgba(0,0,0,0.35);
+      overflow: hidden;
+    }
+    .body { padding: 26px; }
+    h1 {
+      margin: 0 0 18px;
+      font-size: 24px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .hex {
+      width: 14px;
+      height: 14px;
+      display: inline-block;
+      background: var(--cyan);
+      clip-path: polygon(25% 6%, 75% 6%, 100% 50%, 75% 94%, 25% 94%, 0 50%);
+      border: 1px solid var(--outline);
+    }
+    .note-box {
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.06);
+      border: 1px dashed rgba(101,240,249,0.42);
+      color: rgba(255,255,255,0.86);
+      line-height: 1.7;
+    }
+    .matrix-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .matrix-card {
+      padding: 16px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .matrix-title {
+      margin: 0 0 12px;
+      font-size: 16px;
+    }
+    .matrix {
+      display: grid;
+      grid-template-columns: 74px repeat(2, 1fr);
+      gap: 8px;
+    }
+    .matrix-label, .matrix-cell {
+      padding: 12px 10px;
+      border-radius: 14px;
+      text-align: center;
+      font-size: 13px;
+    }
+    .matrix-label {
+      background: rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.80);
+    }
+    .matrix-cell {
+      font-weight: 700;
+      color: white;
+    }
+    .word-cols {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .word-panel {
+      padding: 18px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .word-panel h2 {
+      margin: 0 0 12px;
+      font-size: 18px;
+    }
+    .word-cloud-svg {
+      width: 100%;
+      height: 420px;
+      display: block;
+      border-radius: 20px;
+      background:
+        radial-gradient(circle at 22% 18%, rgba(101,240,249,0.10), transparent 24%),
+        radial-gradient(circle at 78% 22%, rgba(168,136,213,0.16), transparent 26%),
+        rgba(255,255,255,0.03);
+    }
+    .cloud-word {
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      text-anchor: middle;
+      dominant-baseline: middle;
+      stroke: rgba(40, 21, 70, 0.25);
+      stroke-width: 1px;
+      paint-order: stroke fill;
+    }
+    @media (max-width: 900px) {
+      .matrix-grid, .word-cols { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <section class="body">
+      <h1><span class="hex"></span>Word Cloud Reviews</h1>
+      
+    <div class="word-cols">
+      <section class="word-panel">
+        <h2 style="color:#65F0F9">Positive Reviews</h2>
+        <svg class='word-cloud-svg' viewBox='0 0 540 420'><text class='cloud-word' x='270.0' y='210.0' font-size='122.0' font-weight='700' fill='#65F0F9' transform='rotate(0 270.0 210.0)'>best</text><text class='cloud-word' x='284.1' y='314.8' font-size='116.4' font-weight='700' fill='#FFFFFF' transform='rotate(0 284.1 314.8)'>rock</text><text class='cloud-word' x='219.6' y='106.7' font-size='112.0' font-weight='700' fill='#7BA5D8' transform='rotate(0 219.6 106.7)'>money</text><text class='cloud-word' x='75.3' y='210.9' font-size='77.2' font-weight='700' fill='#65F0F9' transform='rotate(0 75.3 210.9)'>way</text><text class='cloud-word' x='465.4' y='201.8' font-size='72.7' font-weight='700' fill='#D8F9FF' transform='rotate(0 465.4 201.8)'>say</text><text class='cloud-word' x='95.1' y='304.3' font-size='72.7' font-weight='700' fill='#A888D5' transform='rotate(0 95.1 304.3)'>gig</text><text class='cloud-word' x='426.4' y='118.7' font-size='71.0' font-weight='700' fill='#7BA5D8' transform='rotate(0 426.4 118.7)'>sky</text><text class='cloud-word' x='470.0' y='279.9' font-size='61.7' font-weight='700' fill='#A888D5' transform='rotate(0 470.0 279.9)'>run</text><text class='cloud-word' x='450.6' y='55.7' font-size='53.2' font-weight='700' fill='#D8F9FF' transform='rotate(0 450.6 55.7)'>heard</text><text class='cloud-word' x='468.1' y='335.8' font-size='52.9' font-weight='700' fill='#A888D5' transform='rotate(0 468.1 335.8)'>solo</text><text class='cloud-word' x='261.1' y='34.3' font-size='49.9' font-weight='700' fill='#A888D5' transform='rotate(0 261.1 34.3)'>los</text><text class='cloud-word' x='163.3' y='34.6' font-size='45.0' font-weight='700' fill='#A888D5' transform='rotate(0 163.3 34.6)'>end</text><text class='cloud-word' x='91.8' y='378.0' font-size='43.6' font-weight='700' fill='#65F0F9' transform='rotate(0 91.8 378.0)'>colour</text><text class='cloud-word' x='373.7' y='389.3' font-size='42.2' font-weight='700' fill='#FFFFFF' transform='rotate(0 373.7 389.3)'>work</text><text class='cloud-word' x='253.2' y='386.1' font-size='39.2' font-weight='700' fill='#A888D5' transform='rotate(0 253.2 386.1)'>del</text><text class='cloud-word' x='55.6' y='66.7' font-size='35.6' font-weight='700' fill='#A888D5' transform='rotate(-90 55.6 66.7)'>vocals</text><text class='cloud-word' x='481.9' y='387.3' font-size='33.1' font-weight='700' fill='#A888D5' transform='rotate(0 481.9 387.3)'>una</text><text class='cloud-word' x='343.5' y='37.4' font-size='28.3' font-weight='700' fill='#FFFFFF' transform='rotate(0 343.5 37.4)'>ive</text><text class='cloud-word' x='44.7' y='155.9' font-size='19.8' font-weight='700' fill='#D8F9FF' transform='rotate(0 44.7 155.9)'>fact</text><text class='cloud-word' x='183.8' y='387.6' font-size='17.8' font-weight='700' fill='#FFFFFF' transform='rotate(0 183.8 387.6)'>bit</text><text class='cloud-word' x='510.1' y='99.4' font-size='17.1' font-weight='700' fill='#D8F9FF' transform='rotate(0 510.1 99.4)'>lot</text></svg>
+      </section>
+      <section class="word-panel">
+        <h2 style="color:#A888D5">Negative Reviews</h2>
+        <svg class='word-cloud-svg' viewBox='0 0 540 420'><text class='cloud-word' x='270.0' y='210.0' font-size='122.0' font-weight='700' fill='#A888D5' transform='rotate(0 270.0 210.0)'>money</text><text class='cloud-word' x='235.5' y='114.7' font-size='97.6' font-weight='700' fill='#FFFFFF' transform='rotate(0 235.5 114.7)'>rock</text><text class='cloud-word' x='293.7' y='311.9' font-size='95.0' font-weight='700' fill='#65F0F9' transform='rotate(0 293.7 311.9)'>people</text><text class='cloud-word' x='450.6' y='122.7' font-size='70.1' font-weight='700' fill='#FFFFFF' transform='rotate(0 450.6 122.7)'>best</text><text class='cloud-word' x='84.0' y='296.4' font-size='67.1' font-weight='700' fill='#7BA5D8' transform='rotate(0 84.0 296.4)'>bad</text><text class='cloud-word' x='210.8' y='40.9' font-size='67.1' font-weight='700' fill='#D9C6FF' transform='rotate(0 210.8 40.9)'>brain</text><text class='cloud-word' x='457.7' y='218.4' font-size='64.0' font-weight='700' fill='#FFFFFF' transform='rotate(-90 457.7 218.4)'>gig</text><text class='cloud-word' x='402.3' y='38.4' font-size='64.0' font-weight='700' fill='#65F0F9' transform='rotate(0 402.3 38.4)'>feel</text><text class='cloud-word' x='366.3' y='382.7' font-size='60.8' font-weight='700' fill='#7BA5D8' transform='rotate(0 366.3 382.7)'>tracks</text><text class='cloud-word' x='62.9' y='210.4' font-size='60.8' font-weight='700' fill='#D9C6FF' transform='rotate(0 62.9 210.4)'>way</text><text class='cloud-word' x='74.4' y='381.1' font-size='60.8' font-weight='700' fill='#FFFFFF' transform='rotate(0 74.4 381.1)'>know</text><text class='cloud-word' x='65.1' y='79.5' font-size='57.6' font-weight='700' fill='#65F0F9' transform='rotate(0 65.1 79.5)'>sky</text><text class='cloud-word' x='206.9' y='381.9' font-size='54.2' font-weight='700' fill='#7BA5D8' transform='rotate(0 206.9 381.9)'>band</text><text class='cloud-word' x='492.7' y='348.7' font-size='39.7' font-weight='700' fill='#7BA5D8' transform='rotate(-90 492.7 348.7)'>think</text><text class='cloud-word' x='72.6' y='127.8' font-size='39.7' font-weight='700' fill='#D9C6FF' transform='rotate(0 72.6 127.8)'>love</text><text class='cloud-word' x='60.3' y='27.8' font-size='31.2' font-weight='700' fill='#FFFFFF' transform='rotate(0 60.3 27.8)'>bit</text><text class='cloud-word' x='79.1' y='168.3' font-size='20.7' font-weight='700' fill='#A888D5' transform='rotate(0 79.1 168.3)'>world</text><text class='cloud-word' x='511.2' y='214.6' font-size='20.7' font-weight='700' fill='#FFFFFF' transform='rotate(-90 511.2 214.6)'>different</text><text class='cloud-word' x='495.8' y='76.0' font-size='20.7' font-weight='700' fill='#A888D5' transform='rotate(0 495.8 76.0)'>par</text><text class='cloud-word' x='500.4' y='44.1' font-size='20.7' font-weight='700' fill='#FFFFFF' transform='rotate(0 500.4 44.1)'>did</text><text class='cloud-word' x='70.7' y='250.5' font-size='12.0' font-weight='700' fill='#65F0F9' transform='rotate(0 70.7 250.5)'>mind</text><text class='cloud-word' x='64.3' y='341.9' font-size='12.0' font-weight='700' fill='#7BA5D8' transform='rotate(0 64.3 341.9)'>mean</text><text class='cloud-word' x='405.8' y='79.0' font-size='12.0' font-weight='700' fill='#D9C6FF' transform='rotate(0 405.8 79.0)'>dull</text><text class='cloud-word' x='356.8' y='143.9' font-size='12.0' font-weight='700' fill='#7BA5D8' transform='rotate(-90 356.8 143.9)'>new</text></svg>
+      </section>
+    </div>
+    
+      
+    </section>
+  </main>
+</body>
+</html>

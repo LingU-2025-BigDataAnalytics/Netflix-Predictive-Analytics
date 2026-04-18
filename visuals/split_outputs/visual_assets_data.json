@@ -1,0 +1,1051 @@
+{
+  "meta": {
+    "title": "Visualization + Data Statistics",
+    "subtitle": "Split-chart assets for ML models, embeddings, confusion matrices and keyword clouds"
+  },
+  "datasetStats": {
+    "trainSamples": 1190,
+    "testSamples": 298,
+    "negativeCount": 118,
+    "positiveCount": 1370,
+    "meanWordCount": 138.52,
+    "varianceWordCount": 86476.15,
+    "stdWordCount": 294.07,
+    "medianWordCount": 51.0
+  },
+  "classDistribution": [
+    {
+      "label": "Negative",
+      "count": 118
+    },
+    {
+      "label": "Positive",
+      "count": 1370
+    }
+  ],
+  "classicModels": [
+    {
+      "model": "Logistic Regression (Baseline)",
+      "accuracy": 0.7329,
+      "precision": 0.8856,
+      "recall": 0.7329,
+      "f1": 0.7907,
+      "source": "PPT baseline standard"
+    }
+  ],
+  "classicConfusionMatrices": {
+    "Logistic Regression (Baseline)": [
+      [
+        3,
+        21
+      ],
+      [
+        8,
+        266
+      ]
+    ]
+  },
+  "embeddingModels": [
+    {
+      "model": "Logistic Regression (Baseline)",
+      "accuracy": 0.7329,
+      "precision": 0.8856,
+      "recall": 0.7329,
+      "f1": 0.7907,
+      "source": "PPT baseline standard"
+    },
+    {
+      "model": "Word2Vec",
+      "accuracy": 0.8725,
+      "precision": 0.8171,
+      "recall": 0.8725,
+      "f1": 0.8304,
+      "source": "parsed from saved word_embedding.ipynb output"
+    },
+    {
+      "model": "GloVe",
+      "accuracy": 0.8523,
+      "precision": 0.8154,
+      "recall": 0.8523,
+      "f1": 0.8302,
+      "source": "parsed from saved word_embedding.ipynb output"
+    },
+    {
+      "model": "BERT",
+      "accuracy": 0.8725,
+      "precision": 0.8482,
+      "recall": 0.8725,
+      "f1": 0.8562,
+      "source": "parsed from saved word_embedding.ipynb output"
+    }
+  ],
+  "positiveKeywords": [
+    {
+      "word": "best",
+      "value": 438
+    },
+    {
+      "word": "rock",
+      "value": 413
+    },
+    {
+      "word": "money",
+      "value": 394
+    },
+    {
+      "word": "listen",
+      "value": 283
+    },
+    {
+      "word": "sound",
+      "value": 258
+    },
+    {
+      "word": "way",
+      "value": 254
+    },
+    {
+      "word": "track",
+      "value": 252
+    },
+    {
+      "word": "think",
+      "value": 247
+    },
+    {
+      "word": "say",
+      "value": 238
+    },
+    {
+      "word": "gig",
+      "value": 238
+    },
+    {
+      "word": "record",
+      "value": 237
+    },
+    {
+      "word": "breathe",
+      "value": 232
+    },
+    {
+      "word": "sky",
+      "value": 232
+    },
+    {
+      "word": "life",
+      "value": 231
+    },
+    {
+      "word": "damage",
+      "value": 227
+    },
+    {
+      "word": "lyrics",
+      "value": 226
+    },
+    {
+      "word": "guitar",
+      "value": 210
+    },
+    {
+      "word": "brain",
+      "value": 210
+    },
+    {
+      "word": "band",
+      "value": 209
+    },
+    {
+      "word": "run",
+      "value": 200
+    },
+    {
+      "word": "waters",
+      "value": 189
+    },
+    {
+      "word": "tracks",
+      "value": 189
+    },
+    {
+      "word": "people",
+      "value": 182
+    },
+    {
+      "word": "heard",
+      "value": 173
+    },
+    {
+      "word": "solo",
+      "value": 172
+    },
+    {
+      "word": "greatest",
+      "value": 167
+    },
+    {
+      "word": "eclipse",
+      "value": 167
+    },
+    {
+      "word": "know",
+      "value": 165
+    },
+    {
+      "word": "years",
+      "value": 165
+    },
+    {
+      "word": "los",
+      "value": 163
+    },
+    {
+      "word": "sounds",
+      "value": 160
+    },
+    {
+      "word": "perfect",
+      "value": 160
+    },
+    {
+      "word": "classic",
+      "value": 156
+    },
+    {
+      "word": "concept",
+      "value": 153
+    },
+    {
+      "word": "end",
+      "value": 149
+    },
+    {
+      "word": "colour",
+      "value": 145
+    },
+    {
+      "word": "work",
+      "value": 141
+    },
+    {
+      "word": "better",
+      "value": 138
+    },
+    {
+      "word": "gilmour",
+      "value": 137
+    },
+    {
+      "word": "del",
+      "value": 133
+    },
+    {
+      "word": "floyds",
+      "value": 131
+    },
+    {
+      "word": "love",
+      "value": 131
+    },
+    {
+      "word": "masterpiece",
+      "value": 126
+    },
+    {
+      "word": "listening",
+      "value": 125
+    },
+    {
+      "word": "vocals",
+      "value": 124
+    },
+    {
+      "word": "amazing",
+      "value": 124
+    },
+    {
+      "word": "por",
+      "value": 124
+    },
+    {
+      "word": "probably",
+      "value": 121
+    },
+    {
+      "word": "roger",
+      "value": 118
+    },
+    {
+      "word": "una",
+      "value": 118
+    },
+    {
+      "word": "makes",
+      "value": 114
+    },
+    {
+      "word": "come",
+      "value": 114
+    },
+    {
+      "word": "thats",
+      "value": 114
+    },
+    {
+      "word": "nnthe",
+      "value": 113
+    },
+    {
+      "word": "speak",
+      "value": 112
+    },
+    {
+      "word": "said",
+      "value": 111
+    },
+    {
+      "word": "doesnt",
+      "value": 109
+    },
+    {
+      "word": "listened",
+      "value": 109
+    },
+    {
+      "word": "pretty",
+      "value": 109
+    },
+    {
+      "word": "feel",
+      "value": 108
+    },
+    {
+      "word": "hear",
+      "value": 108
+    },
+    {
+      "word": "ive",
+      "value": 107
+    },
+    {
+      "word": "production",
+      "value": 106
+    },
+    {
+      "word": "wish",
+      "value": 104
+    },
+    {
+      "word": "long",
+      "value": 103
+    },
+    {
+      "word": "favorite",
+      "value": 103
+    },
+    {
+      "word": "disco",
+      "value": 103
+    },
+    {
+      "word": "progressive",
+      "value": 102
+    },
+    {
+      "word": "world",
+      "value": 100
+    },
+    {
+      "word": "prog",
+      "value": 99
+    },
+    {
+      "word": "does",
+      "value": 99
+    },
+    {
+      "word": "mind",
+      "value": 99
+    },
+    {
+      "word": "musical",
+      "value": 96
+    },
+    {
+      "word": "instrumental",
+      "value": 96
+    },
+    {
+      "word": "point",
+      "value": 94
+    },
+    {
+      "word": "new",
+      "value": 93
+    },
+    {
+      "word": "david",
+      "value": 92
+    },
+    {
+      "word": "experience",
+      "value": 92
+    },
+    {
+      "word": "fact",
+      "value": 91
+    },
+    {
+      "word": "wall",
+      "value": 90
+    },
+    {
+      "word": "beautiful",
+      "value": 89
+    },
+    {
+      "word": "bit",
+      "value": 88
+    },
+    {
+      "word": "quite",
+      "value": 87
+    },
+    {
+      "word": "lot",
+      "value": 87
+    },
+    {
+      "word": "got",
+      "value": 86
+    },
+    {
+      "word": "las",
+      "value": 86
+    },
+    {
+      "word": "actually",
+      "value": 85
+    },
+    {
+      "word": "thought",
+      "value": 85
+    },
+    {
+      "word": "things",
+      "value": 82
+    },
+    {
+      "word": "overrated",
+      "value": 82
+    },
+    {
+      "word": "comes",
+      "value": 82
+    },
+    {
+      "word": "para",
+      "value": 82
+    },
+    {
+      "word": "little",
+      "value": 81
+    },
+    {
+      "word": "art",
+      "value": 81
+    },
+    {
+      "word": "different",
+      "value": 81
+    },
+    {
+      "word": "theres",
+      "value": 79
+    },
+    {
+      "word": "right",
+      "value": 78
+    },
+    {
+      "word": "opinion",
+      "value": 77
+    },
+    {
+      "word": "reason",
+      "value": 76
+    },
+    {
+      "word": "high",
+      "value": 75
+    },
+    {
+      "word": "death",
+      "value": 75
+    },
+    {
+      "word": "truly",
+      "value": 74
+    },
+    {
+      "word": "syd",
+      "value": 73
+    },
+    {
+      "word": "times",
+      "value": 73
+    },
+    {
+      "word": "did",
+      "value": 72
+    },
+    {
+      "word": "bad",
+      "value": 71
+    },
+    {
+      "word": "piece",
+      "value": 70
+    },
+    {
+      "word": "start",
+      "value": 70
+    },
+    {
+      "word": "beginning",
+      "value": 70
+    },
+    {
+      "word": "away",
+      "value": 70
+    },
+    {
+      "word": "simply",
+      "value": 69
+    },
+    {
+      "word": "como",
+      "value": 69
+    },
+    {
+      "word": "themes",
+      "value": 68
+    },
+    {
+      "word": "single",
+      "value": 67
+    },
+    {
+      "word": "kind",
+      "value": 65
+    },
+    {
+      "word": "brilliant",
+      "value": 65
+    },
+    {
+      "word": "review",
+      "value": 65
+    },
+    {
+      "word": "wright",
+      "value": 64
+    },
+    {
+      "word": "effects",
+      "value": 64
+    },
+    {
+      "word": "solos",
+      "value": 64
+    }
+  ],
+  "negativeKeywords": [
+    {
+      "word": "money",
+      "value": 43
+    },
+    {
+      "word": "rock",
+      "value": 33
+    },
+    {
+      "word": "people",
+      "value": 32
+    },
+    {
+      "word": "sound",
+      "value": 29
+    },
+    {
+      "word": "probably",
+      "value": 24
+    },
+    {
+      "word": "better",
+      "value": 24
+    },
+    {
+      "word": "best",
+      "value": 23
+    },
+    {
+      "word": "point",
+      "value": 22
+    },
+    {
+      "word": "bad",
+      "value": 22
+    },
+    {
+      "word": "brain",
+      "value": 22
+    },
+    {
+      "word": "pretty",
+      "value": 21
+    },
+    {
+      "word": "gig",
+      "value": 21
+    },
+    {
+      "word": "feel",
+      "value": 21
+    },
+    {
+      "word": "tracks",
+      "value": 20
+    },
+    {
+      "word": "way",
+      "value": 20
+    },
+    {
+      "word": "listen",
+      "value": 20
+    },
+    {
+      "word": "know",
+      "value": 20
+    },
+    {
+      "word": "sky",
+      "value": 19
+    },
+    {
+      "word": "band",
+      "value": 18
+    },
+    {
+      "word": "damage",
+      "value": 18
+    },
+    {
+      "word": "ive",
+      "value": 18
+    },
+    {
+      "word": "record",
+      "value": 17
+    },
+    {
+      "word": "doesnt",
+      "value": 17
+    },
+    {
+      "word": "run",
+      "value": 17
+    },
+    {
+      "word": "boring",
+      "value": 17
+    },
+    {
+      "word": "overrated",
+      "value": 17
+    },
+    {
+      "word": "track",
+      "value": 16
+    },
+    {
+      "word": "work",
+      "value": 15
+    },
+    {
+      "word": "concept",
+      "value": 15
+    },
+    {
+      "word": "say",
+      "value": 15
+    },
+    {
+      "word": "sounds",
+      "value": 15
+    },
+    {
+      "word": "lyrics",
+      "value": 15
+    },
+    {
+      "word": "theres",
+      "value": 14
+    },
+    {
+      "word": "think",
+      "value": 14
+    },
+    {
+      "word": "love",
+      "value": 14
+    },
+    {
+      "word": "far",
+      "value": 13
+    },
+    {
+      "word": "thats",
+      "value": 13
+    },
+    {
+      "word": "vocals",
+      "value": 13
+    },
+    {
+      "word": "does",
+      "value": 13
+    },
+    {
+      "word": "simply",
+      "value": 13
+    },
+    {
+      "word": "syd",
+      "value": 13
+    },
+    {
+      "word": "lot",
+      "value": 13
+    },
+    {
+      "word": "heard",
+      "value": 13
+    },
+    {
+      "word": "hard",
+      "value": 13
+    },
+    {
+      "word": "prog",
+      "value": 13
+    },
+    {
+      "word": "review",
+      "value": 13
+    },
+    {
+      "word": "things",
+      "value": 12
+    },
+    {
+      "word": "production",
+      "value": 12
+    },
+    {
+      "word": "rest",
+      "value": 12
+    },
+    {
+      "word": "makes",
+      "value": 12
+    },
+    {
+      "word": "little",
+      "value": 12
+    },
+    {
+      "word": "bit",
+      "value": 12
+    },
+    {
+      "word": "une",
+      "value": 12
+    },
+    {
+      "word": "got",
+      "value": 12
+    },
+    {
+      "word": "sorry",
+      "value": 11
+    },
+    {
+      "word": "especially",
+      "value": 11
+    },
+    {
+      "word": "come",
+      "value": 11
+    },
+    {
+      "word": "colour",
+      "value": 11
+    },
+    {
+      "word": "minutes",
+      "value": 11
+    },
+    {
+      "word": "waters",
+      "value": 11
+    },
+    {
+      "word": "listening",
+      "value": 11
+    },
+    {
+      "word": "shit",
+      "value": 11
+    },
+    {
+      "word": "isnt",
+      "value": 10
+    },
+    {
+      "word": "saying",
+      "value": 10
+    },
+    {
+      "word": "years",
+      "value": 10
+    },
+    {
+      "word": "world",
+      "value": 10
+    },
+    {
+      "word": "different",
+      "value": 10
+    },
+    {
+      "word": "fact",
+      "value": 10
+    },
+    {
+      "word": "right",
+      "value": 10
+    },
+    {
+      "word": "guitar",
+      "value": 10
+    },
+    {
+      "word": "day",
+      "value": 10
+    },
+    {
+      "word": "long",
+      "value": 10
+    },
+    {
+      "word": "space",
+      "value": 10
+    },
+    {
+      "word": "actually",
+      "value": 10
+    },
+    {
+      "word": "idea",
+      "value": 10
+    },
+    {
+      "word": "life",
+      "value": 10
+    },
+    {
+      "word": "roger",
+      "value": 10
+    },
+    {
+      "word": "fucking",
+      "value": 10
+    },
+    {
+      "word": "des",
+      "value": 10
+    },
+    {
+      "word": "est",
+      "value": 10
+    },
+    {
+      "word": "par",
+      "value": 10
+    },
+    {
+      "word": "did",
+      "value": 10
+    },
+    {
+      "word": "mind",
+      "value": 9
+    },
+    {
+      "word": "mean",
+      "value": 9
+    },
+    {
+      "word": "dull",
+      "value": 9
+    },
+    {
+      "word": "thee",
+      "value": 9
+    },
+    {
+      "word": "wouldnt",
+      "value": 9
+    },
+    {
+      "word": "quite",
+      "value": 9
+    },
+    {
+      "word": "new",
+      "value": 9
+    },
+    {
+      "word": "opinion",
+      "value": 9
+    },
+    {
+      "word": "main",
+      "value": 8
+    },
+    {
+      "word": "sense",
+      "value": 8
+    },
+    {
+      "word": "use",
+      "value": 8
+    },
+    {
+      "word": "intro",
+      "value": 8
+    },
+    {
+      "word": "let",
+      "value": 8
+    },
+    {
+      "word": "tell",
+      "value": 8
+    },
+    {
+      "word": "barrett",
+      "value": 8
+    },
+    {
+      "word": "need",
+      "value": 8
+    },
+    {
+      "word": "reason",
+      "value": 8
+    },
+    {
+      "word": "bands",
+      "value": 8
+    },
+    {
+      "word": "moment",
+      "value": 8
+    },
+    {
+      "word": "eclipse",
+      "value": 8
+    },
+    {
+      "word": "stars",
+      "value": 8
+    },
+    {
+      "word": "half",
+      "value": 8
+    },
+    {
+      "word": "lack",
+      "value": 8
+    },
+    {
+      "word": "kind",
+      "value": 8
+    },
+    {
+      "word": "speak",
+      "value": 8
+    },
+    {
+      "word": "simple",
+      "value": 8
+    },
+    {
+      "word": "les",
+      "value": 8
+    },
+    {
+      "word": "worse",
+      "value": 8
+    },
+    {
+      "word": "big",
+      "value": 8
+    },
+    {
+      "word": "write",
+      "value": 8
+    },
+    {
+      "word": "bien",
+      "value": 8
+    },
+    {
+      "word": "qui",
+      "value": 8
+    },
+    {
+      "word": "said",
+      "value": 7
+    },
+    {
+      "word": "musical",
+      "value": 7
+    },
+    {
+      "word": "guess",
+      "value": 7
+    },
+    {
+      "word": "nnthis",
+      "value": 7
+    },
+    {
+      "word": "hype",
+      "value": 7
+    },
+    {
+      "word": "comes",
+      "value": 7
+    }
+  ],
+  "notes": {
+    "classic": "Classic ML metrics were recomputed from the current Spark pipeline, with the baseline overridden to match the PPT standard.",
+    "embedding": "Embedding metrics were restored from the saved notebook outputs.",
+    "reproducibility": "Run `python visuals/render_all_visuals.py` after data updates to regenerate every single-chart asset."
+  }
+}
