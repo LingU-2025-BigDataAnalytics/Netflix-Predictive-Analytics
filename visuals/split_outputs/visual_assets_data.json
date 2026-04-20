@@ -35,14 +35,20 @@
   ],
   "classicConfusionMatrices": {
     "Logistic Regression (Baseline)": [
-      [
-        3,
-        21
-      ],
-      [
-        8,
-        266
-      ]
+      [4, 19],
+      [11, 258]
+    ],
+    "Decision Tree (Weighted)": [
+      [11, 12],
+      [83, 186]
+    ],
+    "Random Forest (Weighted)": [
+      [1, 22],
+      [0, 269]
+    ],
+    "Gradient Boosting": [
+      [1, 22],
+      [6, 263]
     ]
   },
   "embeddingModels": [

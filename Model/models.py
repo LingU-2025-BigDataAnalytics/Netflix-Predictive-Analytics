@@ -1,15 +1,16 @@
 # models.py
-# Updated to include Logistic Regression as the baseline model.
-# All models now utilize the same weighted pipeline to ensure fair comparison.
+# Updated to handle missing 'label' columns by indexing 'Sentiment' on the fly.
+# All models utilize the same weighted pipeline to ensure fair comparison.
 
 from pyspark.sql import DataFrame
-from pyspark.ml import Pipeline
+from pyspark.ml import Pipeline, PipelineModel
 from pyspark.ml.feature import (
     SQLTransformer,
     RegexTokenizer,
     StopWordsRemover,
     CountVectorizer,
     IDF,
+    StringIndexer,
 )
 from pyspark.ml.classification import (
     LogisticRegression,
@@ -22,7 +23,7 @@ from pyspark.sql import functions as F
 def _add_weights(train_df: DataFrame):
     """
     Computes class weights to handle imbalance (equivalent to class_weight='balanced').
-    Weight = total_samples / (num_classes * class_count)
+    Requires a numeric 'label' column to exist.
     """
     total_count = train_df.count()
     counts = train_df.groupBy("label").count().collect()
@@ -37,13 +38,12 @@ def _add_weights(train_df: DataFrame):
 
 def _build_feature_pipeline(vocab_size=10000, min_df=2.0):
     """
-    Feature engineering pipeline aligned with the project's requirements:
+    Feature engineering pipeline for text:
     Text cleaning -> Tokenization -> Stopword removal -> CountVectorization -> IDF.
     """
-    # SQLTransformer for text cleaning (lowercase and remove non-alphabet characters)
     clean_text_sql = SQLTransformer(
         statement="""
-        SELECT *, lower(regexp_replace(text, '[^a-zA-Z\\s]', ' ')) AS clean_text FROM __THIS__
+        SELECT *, lower(regexp_replace(Review, '[^a-zA-Z\\s]', ' ')) AS clean_text FROM __THIS__
         """
     )
 
@@ -70,13 +70,18 @@ def _build_feature_pipeline(vocab_size=10000, min_df=2.0):
     return Pipeline(stages=[clean_text_sql, tokenizer, remover, vectorizer, idf])
 
 def train_logistic_regression(train_df: DataFrame, seed=42):
-    """
-    Baseline Model: Logistic Regression.
-    Uses weightCol to handle class imbalance.
-    """
-    train_weighted = _add_weights(train_df)
+    # 1. Ensure 'label' column exists for weight calculation
+    label_indexer = StringIndexer(inputCol="Sentiment", outputCol="label").fit(train_df)
+    indexed_df = label_indexer.transform(train_df)
+    
+    # 2. Add weights
+    train_weighted = _add_weights(indexed_df)
+    
+    # 3. Build text feature model
     feat_pipeline = _build_feature_pipeline()
     feat_model = feat_pipeline.fit(train_weighted)
+    
+    # 4. Prepare training features
     train_features = feat_model.transform(train_weighted)
 
     lr = LogisticRegression(
@@ -89,11 +94,16 @@ def train_logistic_regression(train_df: DataFrame, seed=42):
         predictionCol="prediction",
         family="binomial"
     )
-    return lr.fit(train_features), feat_model
+    
+    # Return the trained classifier and a combined model for the test set
+    combined_feat_model = PipelineModel(stages=[label_indexer, feat_model])
+    return lr.fit(train_features), combined_feat_model
 
 def train_decision_tree(train_df: DataFrame, max_depth=10, seed=42):
-    """Decision Tree with class weights."""
-    train_weighted = _add_weights(train_df)
+    label_indexer = StringIndexer(inputCol="Sentiment", outputCol="label").fit(train_df)
+    indexed_df = label_indexer.transform(train_df)
+    
+    train_weighted = _add_weights(indexed_df)
     feat_pipeline = _build_feature_pipeline()
     feat_model = feat_pipeline.fit(train_weighted)
     train_features = feat_model.transform(train_weighted)
@@ -105,11 +115,14 @@ def train_decision_tree(train_df: DataFrame, max_depth=10, seed=42):
         maxDepth=max_depth,
         seed=seed
     )
-    return dt.fit(train_features), feat_model
+    combined_feat_model = PipelineModel(stages=[label_indexer, feat_model])
+    return dt.fit(train_features), combined_feat_model
 
 def train_random_forest(train_df: DataFrame, num_trees=50, max_depth=10, seed=42):
-    """Random Forest with class weights."""
-    train_weighted = _add_weights(train_df)
+    label_indexer = StringIndexer(inputCol="Sentiment", outputCol="label").fit(train_df)
+    indexed_df = label_indexer.transform(train_df)
+    
+    train_weighted = _add_weights(indexed_df)
     feat_pipeline = _build_feature_pipeline()
     feat_model = feat_pipeline.fit(train_weighted)
     train_features = feat_model.transform(train_weighted)
@@ -122,13 +135,16 @@ def train_random_forest(train_df: DataFrame, num_trees=50, max_depth=10, seed=42
         maxDepth=max_depth,
         seed=seed
     )
-    return rf.fit(train_features), feat_model
+    combined_feat_model = PipelineModel(stages=[label_indexer, feat_model])
+    return rf.fit(train_features), combined_feat_model
 
 def train_gradient_boosting(train_df: DataFrame, max_iter=50, max_depth=5, seed=42):
-    """Gradient Boosting (Unweighted as PySpark GBT doesn't support weightCol)."""
+    label_indexer = StringIndexer(inputCol="Sentiment", outputCol="label").fit(train_df)
+    indexed_df = label_indexer.transform(train_df)
+    
     feat_pipeline = _build_feature_pipeline()
-    feat_model = feat_pipeline.fit(train_df)
-    train_features = feat_model.transform(train_df)
+    feat_model = feat_pipeline.fit(indexed_df)
+    train_features = feat_model.transform(indexed_df)
 
     gbt = GBTClassifier(
         labelCol="label",
@@ -137,4 +153,5 @@ def train_gradient_boosting(train_df: DataFrame, max_iter=50, max_depth=5, seed=
         maxDepth=max_depth,
         seed=seed
     )
-    return gbt.fit(train_features), feat_model
+    combined_feat_model = PipelineModel(stages=[label_indexer, feat_model])
+    return gbt.fit(train_features), combined_feat_model
